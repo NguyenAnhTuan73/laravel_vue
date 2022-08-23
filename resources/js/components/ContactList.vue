@@ -19,6 +19,17 @@
                     <th scope="row">{{ contact.designation }}</th>
                     <th scope="row">{{ contact.contact_no }}</th>
                     <th scope="row">
+                        <router-link
+                            class="btn btn-primary btn-sm"
+                            :to="{
+                                name: 'EditContact',
+                                params: { id: contact.id },
+                            }"
+                        >
+                            Edit
+                        </router-link>
+                    </th>
+                    <th scope="row">
                         <button
                             class="btn btn-danger btn-sm"
                             @click.prevent="deleteContact(contact.id)"

@@ -58,4 +58,33 @@ class ContactController extends Controller
             ], 400);
         }
     }
+    public function getContact($id)
+    {
+        try {
+            $contact = Contact::find($id);
+            return response()->json([
+                'success' => true,
+                'data' => $contact,
+            ], 200);
+        } catch (\Exception$e) {
+            return response()->json([
+                'success' => false,
+                'Message' => $e->getMessage(),
+            ], 400);
+        }
+    }
+    public function updateContact($id, Request $request)
+    {
+        $contact = Contact::where('id', $id)->first();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->designation = $request->designation;
+        $contact->contact_no = $request->contact_no;
+        $contact->save();
+        return response()->json([
+            'message' => 'Contact Update Successfully',
+        ], 200);
+
+    }
+
 }
