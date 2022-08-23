@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ContactController extends Controller
 {
@@ -33,6 +34,7 @@ class ContactController extends Controller
             ], 400);
         }
         $user = Contact::create([
+            'uuid' => Str::uuid()->toString(),
             'name' => $request->name,
             'email' => $request->email,
             'designation' => $request->designation,
@@ -44,24 +46,25 @@ class ContactController extends Controller
             'Message' => 'Successfully',
         ], 200);
     }
-    public function deleteContact($id)
+    public function deleteContact($uuid)
     {
-        $contact = Contact::find($id);
+        $contact = Contact::where('uuid', $uuid);
         if ($contact) {
             $contact->delete();
+
             return response()->json([
                 'Message' => 'Contact Deleted Successfully',
             ], 200);
         } else {
             return response()->json([
-                'Message' => "Contact with id: $id does not exits",
+                'Message' => "Contact with id: $uuid does not exits",
             ], 400);
         }
     }
-    public function getContact($id)
+    public function getContact($uuid)
     {
         try {
-            $contact = Contact::find($id);
+            $contact = Contact::where('uuid', $uuid)->get();
             return response()->json([
                 'success' => true,
                 'data' => $contact,
@@ -73,9 +76,9 @@ class ContactController extends Controller
             ], 400);
         }
     }
-    public function updateContact($id, Request $request)
+    public function updateContact($uuid, Request $request)
     {
-        $contact = Contact::where('id', $id)->first();
+        $contact = Contact::where('uuid', $uuid)->first();
         $contact->name = $request->name;
         $contact->email = $request->email;
         $contact->designation = $request->designation;

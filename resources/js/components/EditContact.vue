@@ -73,10 +73,10 @@ export default {
     },
     methods: {
         async getContactById() {
-            let url = `http://127.0.0.1:8000/api/get_contact/${this.$route.params.id}`;
+            let url = `http://127.0.0.1:8000/api/get_contact/${this.$route.params.uuid}`;
             await axios.get(url).then((response) => {
-                console.log(response.data.data);
-                this.contact = response.data.data;
+                console.log("edit data", response.data.data);
+                this.contact = response.data.data[0];
             });
         },
         async updateContact() {
@@ -93,14 +93,13 @@ export default {
             if (!this.contact.contact_no) {
                 this.errors.push("Contact No. is required");
             }
-
             if (!this.errors.length) {
                 let formData = new FormData();
                 formData.append("name", this.contact.name);
                 formData.append("email", this.contact.email);
                 formData.append("designation", this.contact.designation);
                 formData.append("contact_no", this.contact.contact_no);
-                let url = `http://127.0.0.1:8000/api/update_contact/${this.$route.params.id}`;
+                let url = `http://127.0.0.1:8000/api/update_contact/${this.$route.params.uuid}`;
                 await axios
                     .post(url, formData)
                     .then((response) => {

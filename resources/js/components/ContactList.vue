@@ -4,6 +4,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Designation</th>
@@ -14,6 +15,7 @@
             <tbody v-for="contact in contacts" :key="contact.id">
                 <tr class="table-secondary">
                     <th scope="row">{{ contact.id }}</th>
+                    <th scope="row">{{ contact.uuid }}</th>
                     <th scope="row">{{ contact.name }}</th>
                     <th scope="row">{{ contact.email }}</th>
                     <th scope="row">{{ contact.designation }}</th>
@@ -23,7 +25,7 @@
                             class="btn btn-primary btn-sm"
                             :to="{
                                 name: 'EditContact',
-                                params: { id: contact.id },
+                                params: { uuid: contact.uuid },
                             }"
                         >
                             Edit
@@ -32,7 +34,7 @@
                     <th scope="row">
                         <button
                             class="btn btn-danger btn-sm"
-                            @click.prevent="deleteContact(contact.id)"
+                            @click.prevent="deleteContact(contact.uuid)"
                         >
                             Delete
                         </button>
@@ -65,14 +67,14 @@ export default {
                     console.log("error:", error);
                 });
         },
-        async deleteContact(id) {
-            let url = `http://127.0.0.1:8000/api/delete_contact/${id}`;
+        async deleteContact(uuid) {
+            let url = `http://127.0.0.1:8000/api/delete_contact/${uuid}`;
             await axios
                 .delete(url)
                 .then((response) => {
                     if (response.data.code == 200) {
-                        alert(response.data.message);
                         this.getContacts();
+                        alert("Delete user successfully");
                     }
                 })
                 .catch((error) => {

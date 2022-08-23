@@ -16,7 +16,7 @@ const routes = [
     },
     {
         name: "EditContact",
-        path: "/contact/edit/:id?",
+        path: "/contact/edit/:uuid?",
         component: EditContact,
     },
 ];
