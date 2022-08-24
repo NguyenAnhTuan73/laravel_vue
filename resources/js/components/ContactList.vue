@@ -73,8 +73,8 @@ export default {
                 .delete(url)
                 .then((response) => {
                     if (response.data.code == 200) {
-                        this.getContacts();
                         alert("Delete user successfully");
+                        this.getContacts();
                     }
                 })
                 .catch((error) => {

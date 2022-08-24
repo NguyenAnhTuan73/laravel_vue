@@ -48,12 +48,13 @@ class ContactController extends Controller
     }
     public function deleteContact($uuid)
     {
-        $contact = Contact::where('uuid', $uuid);
+        $contact = Contact::where('uuid', $uuid)->first();
         if ($contact) {
             $contact->delete();
 
             return response()->json([
                 'Message' => 'Contact Deleted Successfully',
+                'code' => 200,
             ], 200);
         } else {
             return response()->json([
